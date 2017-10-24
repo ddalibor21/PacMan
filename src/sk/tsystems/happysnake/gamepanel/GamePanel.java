@@ -8,9 +8,12 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,7 +32,7 @@ public class GamePanel extends JPanel {
 	private Snake snake = new Snake();
 
 	private int ticks = 0;
-	
+
 	public GamePanel() {
 		setDoubleBuffered(isEnabled());
 
@@ -39,14 +42,15 @@ public class GamePanel extends JPanel {
 		Bubble.SCR_W = gd.getDisplayMode().getWidth();
 		addBubbles(15);
 
+		setFocusable(true);
 
 		new Timer(10, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				repaint();
-				
-				if(ticks++ % 1000  == 0) {
+
+				if (ticks++ % 1000 == 0) {
 					addBubbles(10);
 				}
 
@@ -59,13 +63,50 @@ public class GamePanel extends JPanel {
 			public void mouseMoved(MouseEvent e) {
 
 				snake.move(e.getPoint());
-	
+
+			}
+
+		});
+
+		addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				Point pRight = new Point(snake.getHead().x - 5, snake.getHead().y);
+				Point pLeft = new Point(snake.getHead().x + 5, snake.getHead().y);
+				Point pUp = new Point(snake.getHead().x, snake.getHead().y - 5);
+				Point pDown = new Point(snake.getHead().x, snake.getHead().y + 5);
+
+				switch (e.getKeyCode()) {
+
+				case KeyEvent.VK_LEFT:
+					snake.move(pRight);
+					break;
+
+				case KeyEvent.VK_RIGHT:
+					snake.move(pLeft);
+					break;
+
+				case KeyEvent.VK_UP:
+					snake.move(pUp);
+					break;
+
+				case KeyEvent.VK_DOWN:
+					snake.move(pDown);
+					break;
+
+				case KeyEvent.VK_ESCAPE:
+					System.exit(0);
+
+				}
+
 			}
 
 		});
 
 	}
-	
+
 	private void addBubbles(int lim) {
 		for (int i = 0; i < lim; i++) {
 			listOfBubbles.add(new Bubble());
@@ -78,16 +119,16 @@ public class GamePanel extends JPanel {
 		g2.setColor(Color.WHITE);
 		g2.fillRect(0, 0, getWidth(), getHeight());
 
-		Iterator<Bubble> bi = listOfBubbles.iterator(); 
-		while(bi.hasNext()) {
+		Iterator<Bubble> bi = listOfBubbles.iterator();
+		while (bi.hasNext()) {
 			Bubble bubble2 = bi.next();
 
-			if(bubble2.contains(snake.getHead())) {
+			if (bubble2.contains(snake.getHead())) {
 				snake.eat(bubble2);
 				bi.remove();
 				continue;
 			}
-			
+
 			g2.setColor(bubble2.getColor());
 			g2.fill(bubble2);
 		}
