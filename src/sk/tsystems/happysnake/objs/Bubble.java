@@ -23,7 +23,6 @@ public class Bubble extends Ellipse2D.Double {
 
 	private Color color;
 	private long appeared;
-	private boolean consumed;
 
 	/**
 	 * Creates new bubble on random screen position
@@ -39,8 +38,5 @@ public class Bubble extends Ellipse2D.Double {
 	public Color getColor() {
 		return color;
 	}
-
-	public boolean isConsumed() {
-		return consumed;
-	}
+	
 }

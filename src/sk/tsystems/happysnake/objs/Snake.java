@@ -8,20 +8,28 @@ import java.util.List;
 
 public class Snake {
 	private List<Point> points;
+	private List<Bubble> bubles;
 	private Point head;
-	private int size;
 
 	public Snake() {
 		super();
 		points = new LinkedList<>();
-		size = 2;
+		bubles = new LinkedList<>();
 		head = new Point(100, 100);
+
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.BLACK);
+		int index = 0;
 		for (Point p : points) {
-			g.fillOval(p.x, p.y, 10, 10);
+			if(index>=bubles.size())
+				break;
+			
+			Bubble b = bubles.get(index++);
+			b.x = p.getX();
+			b.y = p.getY();
+			g.setColor(b.getColor());
+			g.fill(b);
 		}
 
 		g.setColor(Color.GREEN);
@@ -29,7 +37,7 @@ public class Snake {
 	}
 
 	public void move(Point pt) {
-		if (points.size() > size)
+		while (points.size() > bubles.size())
 			points.remove(0);
 
 		points.add(pt);
@@ -41,7 +49,7 @@ public class Snake {
 	}
 
 	public void eat(Bubble b) {
-		size++;
+		bubles.add(b);
 	}
 
 }
