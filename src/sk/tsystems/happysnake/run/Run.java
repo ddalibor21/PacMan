@@ -7,14 +7,22 @@ import sk.tsystems.happysnake.gamepanel.GamePanel;
 public class Run extends JFrame {
 
 	public Run() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		
-		setContentPane(new GamePanel());
 		
 		/* set fullScrean */
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setUndecorated(true);
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				
+				setContentPane(new GamePanel());
+			}
+		});
+	
+		
+	
 
 	}
 
