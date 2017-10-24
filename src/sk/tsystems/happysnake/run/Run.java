@@ -1,5 +1,7 @@
 package sk.tsystems.happysnake.run;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
 import sk.tsystems.happysnake.gamepanel.GamePanel;
@@ -20,6 +22,18 @@ public class Run extends JFrame {
 			}
 		});
 
+		
+		addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ESCAPE ) {
+					dispose();
+				}
+			}
+			
+		});
+		
 	}
 
 	public static void main(String[] args) {
