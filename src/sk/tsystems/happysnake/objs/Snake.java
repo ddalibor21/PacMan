@@ -18,6 +18,9 @@ public class Snake {
 	}
 
 	public void draw(Graphics2D g) {
+		if(head == null)
+			return;
+		
 		g.setColor(Color.BLACK);
 		for (Point p : points) {
 			g.fillOval(p.x, p.y, 10, 10);
@@ -33,6 +36,10 @@ public class Snake {
 
 		points.add(pt);
 		head = pt;
+	}
+
+	public Point getHead() {
+		return head;
 	}
 
 }
