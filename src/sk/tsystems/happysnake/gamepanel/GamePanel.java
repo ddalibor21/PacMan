@@ -1,6 +1,8 @@
 package sk.tsystems.happysnake.gamepanel;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
@@ -70,35 +72,34 @@ public class GamePanel extends JPanel {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
 					snake.prev();
-					//snake.setDirection(snake.getDirection().prev());
+					// snake.setDirection(snake.getDirection().prev());
 					break;
 
 				case KeyEvent.VK_RIGHT:
 					snake.next();
-					//snake.setDirection(snake.getDirection().next());
+					// snake.setDirection(snake.getDirection().next());
 					break;
 
 				case KeyEvent.VK_ESCAPE:
 					System.exit(0);
 
 				}
-				
+
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_A:
 					snake2.prev();
-					//snake2.setDirection(snake2.getDirection().prev());
+					// snake2.setDirection(snake2.getDirection().prev());
 					break;
 
 				case KeyEvent.VK_D:
 					snake2.next();
-					//snake2.setDirection(snake2.getDirection().next());
+					// snake2.setDirection(snake2.getDirection().next());
 					break;
 
 				case KeyEvent.VK_ESCAPE:
 					System.exit(0);
 
 				}
-				
 
 			}
 
@@ -127,13 +128,12 @@ public class GamePanel extends JPanel {
 				bi.remove();
 				continue;
 			}
-			
+
 			if (bubble2.intersects(snake2.getHead2().getBounds2D())) {
 				snake2.eat(bubble2);
 				bi.remove();
 				continue;
 			}
-			
 
 			g2.setColor(bubble2.getColor());
 			g2.fill(bubble2);
@@ -141,6 +141,17 @@ public class GamePanel extends JPanel {
 
 		snake.draw(g2);
 		snake2.draw(g2);
+
+		
+		g2.setFont(new Font("Verdana", Font.BOLD, 15));
+		g2.setColor(snake.getColor());
+		g2.drawString(String.format("SNAKE 1 : %d", snake.getScore()), 5, 15);
+
+		g2.setColor(snake2.getColor());
+
+		String player = String.format("SNAKE 2 : %d", snake2.getScore());
+
+		g2.drawString(player, getWidth() - g2.getFontMetrics().stringWidth(player)-5, 15);
 
 	}
 
