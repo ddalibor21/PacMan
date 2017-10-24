@@ -15,12 +15,10 @@ public class Snake {
 		super();
 		points = new LinkedList<>();
 		size = 2;
+		head = new Point(100, 100);
 	}
 
 	public void draw(Graphics2D g) {
-		if(head == null)
-			return;
-		
 		g.setColor(Color.BLACK);
 		for (Point p : points) {
 			g.fillOval(p.x, p.y, 10, 10);
@@ -40,6 +38,10 @@ public class Snake {
 
 	public Point getHead() {
 		return head;
+	}
+
+	public void eat(Bubble b) {
+		size++;
 	}
 
 }

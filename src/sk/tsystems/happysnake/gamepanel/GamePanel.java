@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -27,6 +28,8 @@ public class GamePanel extends JPanel {
 	private GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 	private Snake snake = new Snake();
 
+	private int ticks = 0;
+	
 	public GamePanel() {
 		setDoubleBuffered(isEnabled());
 
@@ -34,17 +37,18 @@ public class GamePanel extends JPanel {
 
 		Bubble.SCR_H = gd.getDisplayMode().getHeight();
 		Bubble.SCR_W = gd.getDisplayMode().getWidth();
+		addBubbles(15);
 
-		for (int i = 0; i < 5; i++) {
-			listOfBubbles.add(new Bubble());
-
-		}
 
 		new Timer(10, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				repaint();
+				
+				if(ticks++ % 1000  == 0) {
+					addBubbles(10);
+				}
 
 			}
 		}).start();
@@ -61,6 +65,12 @@ public class GamePanel extends JPanel {
 		});
 
 	}
+	
+	private void addBubbles(int lim) {
+		for (int i = 0; i < lim; i++) {
+			listOfBubbles.add(new Bubble());
+		}
+	}
 
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
@@ -68,7 +78,16 @@ public class GamePanel extends JPanel {
 		g2.setColor(Color.WHITE);
 		g2.fillRect(0, 0, getWidth(), getHeight());
 
-		for (Bubble bubble2 : listOfBubbles) {
+		Iterator<Bubble> bi = listOfBubbles.iterator(); 
+		while(bi.hasNext()) {
+			Bubble bubble2 = bi.next();
+
+			if(bubble2.contains(snake.getHead())) {
+				snake.eat(bubble2);
+				bi.remove();
+				continue;
+			}
+			
 			g2.setColor(bubble2.getColor());
 			g2.fill(bubble2);
 		}
