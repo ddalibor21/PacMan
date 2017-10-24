@@ -69,9 +69,9 @@ public class Snake {
 		return direction;
 	}
 
-	/*public void setDirection(Direction direction) {
-		this.direction = direction;
-	}*/
+	/*
+	 * public void setDirection(Direction direction) { this.direction = direction; }
+	 */
 
 	public Ellipse2D getHead2() {
 		return head;
@@ -110,23 +110,30 @@ public class Snake {
 
 		move(p);
 	}
-	
+
 	public void next() {
 		direction = direction.next();
 	}
-	
+
 	public void prev() {
 		direction = direction.prev();
 	}
-	
+
 	public boolean isCrashed(Snake snake) {
-		return false;
+		for (Bubble b1 : bubles) {
+			for (Bubble b2 : snake.bubles) {
+				if (b1.intersects(b2.getBounds2D()))
+					return true;
+			}
+		}
+
+		return head.intersects(snake.head.getBounds2D());
 	}
-	
+
 	public Color getColor() {
 		return color;
 	}
-	
+
 	public int getScore() {
 		return bubles.size();
 	}
