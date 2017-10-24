@@ -1,16 +1,22 @@
 package sk.tsystems.happysnake.run;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import javax.swing.JFrame;
 
 import sk.tsystems.happysnake.gamepanel.GamePanel;
 
 public class Run extends JFrame {
 
+	private static final long serialVersionUID = -8019686176140894756L;
+
 	public Run() {
 		/* set fullScrean */
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		// setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setSize(screenSize);
 		setUndecorated(true);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
