@@ -6,10 +6,13 @@ import java.awt.Point;
 import java.util.LinkedList;
 import java.util.List;
 
+import sk.tsystems.happysnake.gamepanel.Direction;
+
 public class Snake {
 	private List<Point> points;
 	private List<Bubble> bubles;
 	private Point head;
+	private Direction direction = Direction.DOWN;
 
 	public Snake() {
 		super();
@@ -50,6 +53,14 @@ public class Snake {
 
 	public void eat(Bubble b) {
 		bubles.add(b);
+	}
+
+	public Direction getDirection() {
+		return direction;
+	}
+
+	public void setDirection(Direction direction) {
+		this.direction = direction;
 	}
 
 }

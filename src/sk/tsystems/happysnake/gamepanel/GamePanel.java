@@ -44,6 +44,33 @@ public class GamePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				final int moveSize = 5;
+				Point p = null;
+				switch (snake.getDirection()) {
+				case DOWN:
+					p = new Point(snake.getHead().x, snake.getHead().y + moveSize);
+					break;
+				case LEFT:
+					p = new Point(snake.getHead().x + moveSize, snake.getHead().y);
+					break;
+				case RIGHT:
+					p = new Point(snake.getHead().x - moveSize, snake.getHead().y);
+					break;
+				case UP:
+					p = new Point(snake.getHead().x, snake.getHead().y - moveSize);
+					break;
+				default:
+					break;
+				}
+				
+				if(p.y>getHeight())
+					p.y = 0;
+				
+				if(p.x>getWidth())
+					p.x = 0;
+				
+				snake.move(p);
+
 				repaint();
 
 				if (ticks++ % 1000 == 0) {
@@ -58,28 +85,30 @@ public class GamePanel extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent e) {
 
-				Point pRight = new Point(snake.getHead().x - 5, snake.getHead().y);
-				Point pLeft = new Point(snake.getHead().x + 5, snake.getHead().y);
-				Point pUp = new Point(snake.getHead().x, snake.getHead().y - 5);
-				Point pDown = new Point(snake.getHead().x, snake.getHead().y + 5);
+				/*
+				 * Point pRight = new Point(snake.getHead().x - 5, snake.getHead().y); Point
+				 * pLeft = new Point(snake.getHead().x + 5, snake.getHead().y); Point pUp = new
+				 * Point(snake.getHead().x, snake.getHead().y - 5); Point pDown = new
+				 * Point(snake.getHead().x, snake.getHead().y + 5);
+				 */
 
 				switch (e.getKeyCode()) {
 
 				case KeyEvent.VK_LEFT:
-					snake.move(pRight);
+					snake.setDirection(snake.getDirection().prev());
+					// snake.move(pRight);
 					break;
 
 				case KeyEvent.VK_RIGHT:
-					snake.move(pLeft);
+					snake.setDirection(snake.getDirection().next());
+					// snake.move(pLeft);
 					break;
 
-				case KeyEvent.VK_UP:
-					snake.move(pUp);
-					break;
-
-				case KeyEvent.VK_DOWN:
-					snake.move(pDown);
-					break;
+				/*
+				 * case KeyEvent.VK_UP: //snake.move(pUp); break;
+				 * 
+				 * case KeyEvent.VK_DOWN: //snake.move(pDown); break;
+				 */
 
 				case KeyEvent.VK_ESCAPE:
 					System.exit(0);
