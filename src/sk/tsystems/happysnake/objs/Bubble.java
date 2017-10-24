@@ -9,7 +9,7 @@ public class Bubble extends Ellipse2D.Double {
 
 	public static int SCR_W;
 	public static int SCR_H;
-	private static int SIZE = 15;
+	public static int SIZE = 50;
 
 	private static final Random RND = new Random();
 

@@ -21,19 +21,5 @@ public enum Direction {
 	public Direction prev() {
 		return val(-1);
 	}
-	
-	/*static {
-		Direction d = UP;
-		for(int i=0; i<6; i++) {
-			System.out.println(d);
-			d = d.next();
-		}
-		
-		for(int i=0; i<6; i++) {
-			System.out.println(d);
-			d = d.prev();
-		}
-		
-	}*/
 
 }

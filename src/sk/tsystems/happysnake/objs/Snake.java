@@ -19,17 +19,24 @@ public class Snake {
 		super();
 		points = new LinkedList<>();
 		bubles = new LinkedList<>();
-		//head = new Point(100, 100);
-		head = new Ellipse2D.Double(100, 100, 20, 20);
+		head = new Ellipse2D.Double(100, 100, Bubble.SIZE+10, Bubble.SIZE+10);
 	}
 
 	public void draw(Graphics2D g) {
-		int index = 0;
-		for (Point p : points) {
-			if(index>=bubles.size())
-				break;
+		int index = points.size()-1;
+		Point last = getHead();
+		Point p = last;
+
+		outer:
+		for (Bubble b: bubles) {
+			while (last.distance(p)<Bubble.SIZE*0.90) {
+				if(index<0)
+					break outer;
+				
+				p= points.get(index--);
+			}
+			last = p;
 			
-			Bubble b = bubles.get(index++);
 			b.x = p.getX();
 			b.y = p.getY();
 			g.setColor(b.getColor());
@@ -37,12 +44,11 @@ public class Snake {
 		}
 
 		g.setColor(Color.GREEN);
-		//g.fillOval(head.x, head.y, 10, 10);
 		g.fill(head);
 	}
 
 	public void move(Point pt) {
-		while (points.size() > bubles.size())
+		while (points.size() > bubles.size()*10)
 			points.remove(0);
 
 		points.add(pt);

@@ -36,11 +36,11 @@ public class GamePanel extends JPanel {
 
 		Bubble.SCR_H = gd.getDisplayMode().getHeight();
 		Bubble.SCR_W = gd.getDisplayMode().getWidth();
-		addBubbles(15);
+		addBubbles(10);
 
 		setFocusable(true);
 
-		new Timer(25, new ActionListener() {
+		new Timer(10, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -79,7 +79,7 @@ public class GamePanel extends JPanel {
 
 				repaint();
 
-				if (ticks++ % 1000 == 0) {
+				if (ticks++ % 2000 == 0) {
 					addBubbles(10);
 				}
 
