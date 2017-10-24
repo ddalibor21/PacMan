@@ -30,6 +30,9 @@ public class GamePanel extends JPanel {
 	private Snake snake;
 	private Snake snake2;
 
+	private boolean gameOver = false;
+	private Timer tmr;
+	
 	private int ticks = 0;
 
 	public GamePanel() {
@@ -47,7 +50,7 @@ public class GamePanel extends JPanel {
 
 		setFocusable(true);
 
-		new Timer(10, new ActionListener() {
+		tmr = new Timer(10, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -62,7 +65,8 @@ public class GamePanel extends JPanel {
 				}
 
 			}
-		}).start();
+		});
+		tmr.start();
 
 		addKeyListener(new KeyAdapter() {
 
@@ -145,14 +149,33 @@ public class GamePanel extends JPanel {
 		
 		g2.setFont(new Font("Verdana", Font.BOLD, 15));
 		g2.setColor(snake.getColor());
-		g2.drawString(String.format("SNAKE 1 : %d", snake.getScore()), 5, 15);
+		String pl1 = String.format("SNAKE 1 : %d", snake.getScore());
+		g2.drawString(pl1, 5, 15);
 
 		g2.setColor(snake2.getColor());
 
-		String player = String.format("SNAKE 2 : %d", snake2.getScore());
+		String pl2 = String.format("SNAKE 2 : %d", snake2.getScore());
 
-		g2.drawString(player, getWidth() - g2.getFontMetrics().stringWidth(player)-5, 15);
+		g2.drawString(pl2, getWidth() - g2.getFontMetrics().stringWidth(pl2)-5, 15);
 
+		
+		gameOver |= snake.isCrashed(snake2); 
+		if(gameOver) {
+			tmr.stop();
+			g2.setFont(new Font("verdana", Font.BOLD, 48));
+			g2.setColor(Color.RED);
+			centerText(g2, getHeight()/2, "GAME OVER");
+			
+			if(snake.getScore()>snake2.getScore()) 
+				centerText(g2,getHeight()/2 + 50, "WINS "+pl1);
+			else
+				centerText(g2,getHeight()/2 + 50, "WINS "+pl2);
+		}		
+	}
+	
+	private void centerText(Graphics2D g2, int h, String txt) {
+		int x = (getWidth() - g2.getFontMetrics().stringWidth(txt))/2;
+		g2.drawString(txt, x, h);
 	}
 
 }
