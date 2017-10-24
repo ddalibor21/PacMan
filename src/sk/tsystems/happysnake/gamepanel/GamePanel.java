@@ -25,11 +25,16 @@ public class GamePanel extends JPanel {
 	private static final long serialVersionUID = -5068342865808331392L;
 	private List<Bubble> listOfBubbles = new ArrayList<>();
 	private GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-	private Snake snake = new Snake();
+	private Snake snake;
+	private Snake snake2;
 
 	private int ticks = 0;
 
 	public GamePanel() {
+		snake = new Snake(Color.RED);
+		snake2 = new Snake(Color.BLUE);
+		snake2.move(new Point(800, 600));
+
 		setDoubleBuffered(isEnabled());
 
 		setBackground(Color.WHITE);
@@ -45,37 +50,8 @@ public class GamePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				final int moveSize = 7;
-				Point p = null;
-				switch (snake.getDirection()) {
-				case DOWN:
-					p = new Point(snake.getHead().x, snake.getHead().y + moveSize);
-					break;
-				case LEFT:
-					p = new Point(snake.getHead().x + moveSize, snake.getHead().y);
-					break;
-				case RIGHT:
-					p = new Point(snake.getHead().x - moveSize, snake.getHead().y);
-					break;
-				case UP:
-					p = new Point(snake.getHead().x, snake.getHead().y - moveSize);
-					break;
-				default:
-					break;
-				}
-				
-				if(p.y>getHeight())
-					p.y = 0;
-
-				if(p.y<0)
-					p.y = getHeight();
-				
-				if(p.x<0)
-					p.x = getWidth();
-				
-				if(p.x>getWidth())
-					p.x = 0;
-				
-				snake.move(p);
+				snake.step(moveSize, getWidth(), getHeight());
+				snake2.step(moveSize, getWidth(), getHeight());
 
 				repaint();
 
@@ -91,35 +67,38 @@ public class GamePanel extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent e) {
 
-				/*
-				 * Point pRight = new Point(snake.getHead().x - 5, snake.getHead().y); Point
-				 * pLeft = new Point(snake.getHead().x + 5, snake.getHead().y); Point pUp = new
-				 * Point(snake.getHead().x, snake.getHead().y - 5); Point pDown = new
-				 * Point(snake.getHead().x, snake.getHead().y + 5);
-				 */
-
 				switch (e.getKeyCode()) {
-
 				case KeyEvent.VK_LEFT:
-					snake.setDirection(snake.getDirection().prev());
-					// snake.move(pRight);
+					snake.prev();
+					//snake.setDirection(snake.getDirection().prev());
 					break;
 
 				case KeyEvent.VK_RIGHT:
-					snake.setDirection(snake.getDirection().next());
-					// snake.move(pLeft);
+					snake.next();
+					//snake.setDirection(snake.getDirection().next());
 					break;
-
-				/*
-				 * case KeyEvent.VK_UP: //snake.move(pUp); break;
-				 * 
-				 * case KeyEvent.VK_DOWN: //snake.move(pDown); break;
-				 */
 
 				case KeyEvent.VK_ESCAPE:
 					System.exit(0);
 
 				}
+				
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_A:
+					snake2.prev();
+					//snake2.setDirection(snake2.getDirection().prev());
+					break;
+
+				case KeyEvent.VK_D:
+					snake2.next();
+					//snake2.setDirection(snake2.getDirection().next());
+					break;
+
+				case KeyEvent.VK_ESCAPE:
+					System.exit(0);
+
+				}
+				
 
 			}
 
@@ -148,12 +127,20 @@ public class GamePanel extends JPanel {
 				bi.remove();
 				continue;
 			}
+			
+			if (bubble2.intersects(snake2.getHead2().getBounds2D())) {
+				snake2.eat(bubble2);
+				bi.remove();
+				continue;
+			}
+			
 
 			g2.setColor(bubble2.getColor());
 			g2.fill(bubble2);
 		}
 
 		snake.draw(g2);
+		snake2.draw(g2);
 
 	}
 
