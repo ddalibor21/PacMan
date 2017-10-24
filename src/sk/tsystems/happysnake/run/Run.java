@@ -27,6 +27,8 @@ public class Run extends JFrame {
 				setContentPane(new GamePanel());
 			}
 		});
+		
+		
 
 	}
 

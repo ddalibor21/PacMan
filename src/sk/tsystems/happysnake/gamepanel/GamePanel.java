@@ -143,7 +143,7 @@ public class GamePanel extends JPanel {
 		while (bi.hasNext()) {
 			Bubble bubble2 = bi.next();
 
-			if (bubble2.contains(snake.getHead())) {
+			if (bubble2.intersects(snake.getHead2().getBounds2D())) {
 				snake.eat(bubble2);
 				bi.remove();
 				continue;

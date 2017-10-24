@@ -3,6 +3,7 @@ package sk.tsystems.happysnake.objs;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.Ellipse2D;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,15 +12,15 @@ import sk.tsystems.happysnake.gamepanel.Direction;
 public class Snake {
 	private List<Point> points;
 	private List<Bubble> bubles;
-	private Point head;
+	private Ellipse2D.Double head;
 	private Direction direction = Direction.DOWN;
 
 	public Snake() {
 		super();
 		points = new LinkedList<>();
 		bubles = new LinkedList<>();
-		head = new Point(100, 100);
-
+		//head = new Point(100, 100);
+		head = new Ellipse2D.Double(100, 100, 20, 20);
 	}
 
 	public void draw(Graphics2D g) {
@@ -36,7 +37,8 @@ public class Snake {
 		}
 
 		g.setColor(Color.GREEN);
-		g.fillOval(head.x, head.y, 10, 10);
+		//g.fillOval(head.x, head.y, 10, 10);
+		g.fill(head);
 	}
 
 	public void move(Point pt) {
@@ -44,11 +46,12 @@ public class Snake {
 			points.remove(0);
 
 		points.add(pt);
-		head = pt;
+		head.x = pt.x;
+		head.y = pt.y;
 	}
 
 	public Point getHead() {
-		return head;
+		return new Point((int)Math.floor(head.x),(int) Math.floor(head.y));
 	}
 
 	public void eat(Bubble b) {
@@ -62,5 +65,10 @@ public class Snake {
 	public void setDirection(Direction direction) {
 		this.direction = direction;
 	}
+	
+	public Ellipse2D getHead2() {
+		return head;
+	}
+
 
 }
