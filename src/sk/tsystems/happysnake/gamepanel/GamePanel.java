@@ -40,11 +40,11 @@ public class GamePanel extends JPanel {
 
 		setFocusable(true);
 
-		new Timer(10, new ActionListener() {
+		new Timer(25, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				final int moveSize = 5;
+				final int moveSize = 7;
 				Point p = null;
 				switch (snake.getDirection()) {
 				case DOWN:
@@ -65,6 +65,12 @@ public class GamePanel extends JPanel {
 				
 				if(p.y>getHeight())
 					p.y = 0;
+
+				if(p.y<0)
+					p.y = getHeight();
+				
+				if(p.x<0)
+					p.x = getWidth();
 				
 				if(p.x>getWidth())
 					p.x = 0;
