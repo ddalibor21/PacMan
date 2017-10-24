@@ -55,7 +55,7 @@ public class GamePanel extends JPanel {
 			public void mouseMoved(MouseEvent e) {
 
 				snake.move(e.getPoint());
-
+	
 			}
 
 		});
