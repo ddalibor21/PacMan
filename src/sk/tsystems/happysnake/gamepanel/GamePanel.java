@@ -2,7 +2,6 @@ package sk.tsystems.happysnake.gamepanel;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
@@ -32,14 +31,11 @@ public class GamePanel extends JPanel {
 
 	private boolean gameOver = false;
 	private Timer tmr;
-	
+
 	private int ticks = 0;
 
 	public GamePanel() {
-		snake = new Snake(Color.RED);
-		snake2 = new Snake(Color.BLUE);
-		snake2.move(new Point(800, 600));
-
+		newGame();
 		setDoubleBuffered(isEnabled());
 
 		setBackground(Color.WHITE);
@@ -76,12 +72,14 @@ public class GamePanel extends JPanel {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
 					snake.prev();
-					// snake.setDirection(snake.getDirection().prev());
 					break;
 
 				case KeyEvent.VK_RIGHT:
 					snake.next();
-					// snake.setDirection(snake.getDirection().next());
+					break;
+
+				case KeyEvent.VK_N:
+					newGame();
 					break;
 
 				case KeyEvent.VK_ESCAPE:
@@ -92,23 +90,30 @@ public class GamePanel extends JPanel {
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_A:
 					snake2.prev();
-					// snake2.setDirection(snake2.getDirection().prev());
 					break;
 
 				case KeyEvent.VK_D:
 					snake2.next();
-					// snake2.setDirection(snake2.getDirection().next());
 					break;
 
-				case KeyEvent.VK_ESCAPE:
-					System.exit(0);
-
 				}
-
 			}
 
 		});
 
+	}
+
+	private void newGame() {
+		snake = new Snake(Color.RED);
+		snake2 = new Snake(Color.BLUE);
+		snake2.move(new Point(800, 600));
+		listOfBubbles.clear();
+		ticks = 0;
+		gameOver = false;
+
+		if (tmr != null) {
+			tmr.start();
+		}
 	}
 
 	private void addBubbles(int lim) {
@@ -146,7 +151,6 @@ public class GamePanel extends JPanel {
 		snake.draw(g2);
 		snake2.draw(g2);
 
-		
 		g2.setFont(new Font("Verdana", Font.BOLD, 15));
 		g2.setColor(snake.getColor());
 		String pl1 = String.format("SNAKE 1 : %d", snake.getScore());
@@ -156,25 +160,24 @@ public class GamePanel extends JPanel {
 
 		String pl2 = String.format("SNAKE 2 : %d", snake2.getScore());
 
-		g2.drawString(pl2, getWidth() - g2.getFontMetrics().stringWidth(pl2)-5, 15);
+		g2.drawString(pl2, getWidth() - g2.getFontMetrics().stringWidth(pl2) - 5, 15);
 
-		
-		gameOver |= snake.isCrashed(snake2); 
-		if(gameOver) {
+		gameOver |= snake.isCrashed(snake2);
+		if (gameOver) {
 			tmr.stop();
 			g2.setFont(new Font("verdana", Font.BOLD, 48));
 			g2.setColor(Color.RED);
-			centerText(g2, getHeight()/2, "GAME OVER");
-			
-			if(snake.getScore()>snake2.getScore()) 
-				centerText(g2,getHeight()/2 + 50, "WINS "+pl1);
+			centerText(g2, getHeight() / 2, "GAME OVER");
+
+			if (snake.getScore() > snake2.getScore())
+				centerText(g2, getHeight() / 2 + 50, "WINS " + pl1);
 			else
-				centerText(g2,getHeight()/2 + 50, "WINS "+pl2);
-		}		
+				centerText(g2, getHeight() / 2 + 50, "WINS " + pl2);
+		}
 	}
-	
+
 	private void centerText(Graphics2D g2, int h, String txt) {
-		int x = (getWidth() - g2.getFontMetrics().stringWidth(txt))/2;
+		int x = (getWidth() - g2.getFontMetrics().stringWidth(txt)) / 2;
 		g2.drawString(txt, x, h);
 	}
 
