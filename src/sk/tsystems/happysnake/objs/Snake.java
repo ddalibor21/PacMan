@@ -118,5 +118,17 @@ public class Snake {
 	public void prev() {
 		direction = direction.prev();
 	}
+	
+	public boolean isCrashed(Snake snake) {
+		return false;
+	}
+	
+	public Color getColor() {
+		return color;
+	}
+	
+	public int getScore() {
+		return bubles.size();
+	}
 
 }
